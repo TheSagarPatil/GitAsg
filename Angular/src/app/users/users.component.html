@@ -1,0 +1,84 @@
+<div class="alert "
+    [class.alert-success] = "errorMessage === 'success' "
+    [class.alert-danger] = " errorMessage === 'fail' "
+    *ngIf = "errorMessage === 'fail'  || errorMessage === 'success' ">
+    {{errorMessage}}
+</div>
+
+<div class="container p-0">
+    <h3>User</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Phone Num</th>
+                    <th scope="col">Roles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor = "let item of usersData ">
+                    <td scope="row">{{ item['PHONE_NUMBER'] }} </td>
+                    <td >
+                        <span *ngFor="let role of item['ROLE']">
+                            {{ role['ROLE']}}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+<div class="container">
+    <form  #userForm = "ngForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="" >Phone Number</label>
+                    <input
+                        type="number" name = "phone_number" #phone_number="ngModel" required
+                        [(ngModel)] = "userModel.phone_number"
+                        pattern = "^\d{4}$"
+                        [class.is-invalid] = "( phone_number.invalid && phone_number.touched ) "
+                        (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+                        class="form-control rounded-2 "
+                    >
+                    <small class="text-danger" [class.d-none]="phone_number.valid || phone_number.untouched">
+                        Phone number is required & must be exactly 4 chars long
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="" >Password</label>
+                    <input
+                        type="text"
+                        name= "password"
+                        #password ="ngModel"
+                        class="form-control rounded-2"
+                        [class.is-invalid] = "( password.invalid && password.touched ) "
+                        [(ngModel)] = "userModel.password" required
+                    >
+                    <small class="text-danger" [class.d-none]="password?.value?.length >= 4 || (password.valid || password.untouched)">
+                        Password is required & must be 4 chars or longer
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select name="" id="" multiple
+                    #roles
+                    [class.is-invalid] = "userModel?.roles?.length === 0"
+                    (change)="onSelectChange($event)"
+                >
+                    <option *ngFor="let item of rolesData" [value]="item['ROLE']" [ngValue]=" item['ROLE'] ">{{item['ROLE']}}</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary" type="button"
+                    [disabled]="userForm.form.invalid || ( userModel?.roles === undefined || userModel?.roles?.length === 0) "
+                    (click) = "saveClicked($event)"
+                >
+                    Add User
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>
