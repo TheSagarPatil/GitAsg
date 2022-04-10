@@ -4,9 +4,11 @@
     *ngIf = "errorMessage === 'fail'  || errorMessage === 'success' ">
     {{errorMessage}}
 </div>
-
-<div class="container p-0">
+<div class="container p-0" *ngIf="currentUserRoles.includes('READ')">
     <h3>User</h3>
+</div>
+<div class="container p-0">
+
         <table class="table">
             <thead>
                 <tr>
@@ -26,7 +28,7 @@
             </tbody>
         </table>
 </div>
-<div class="container">
+<div class="container" *ngIf="currentUserRoles.includes('READ') && currentUserRoles.includes('UPDATE') ">
     <form  #userForm = "ngForm" (ngSubmit)="onSubmit()">
         <div class="row">
             <div class="col-md-3">

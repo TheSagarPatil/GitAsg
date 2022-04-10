@@ -17,6 +17,7 @@ export class UsersComponent implements OnInit {
   usersData : any;
   rolesData: any;
   userData : any; // localStorage data
+  currentUserRoles : string[] = [];
   constructor(
     private userService : UserService,
     private rolesService : RolesService,
@@ -25,6 +26,7 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.showUsers();
     this.userData = JSON.parse( localStorage.getItem('userData') || '' )
+    this.currentUserRoles = this.userData.roles;
   }
 
   showUsers() : void {
