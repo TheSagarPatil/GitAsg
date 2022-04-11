@@ -98,6 +98,7 @@ def getRefreshToken(tokenData):
             'roles' : tokenData['sub']['roles']
             } ).decode('utf-8')
         userData["token"] = jwt
+        userData['PHONE_NUMBER'] = tokenData['sub']['phone_number']
         return formResponse(userData)
     else:
         return formResponse( *AppCustomConfig( 'badRequestTuple' ) )

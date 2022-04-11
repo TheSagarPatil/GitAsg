@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { LoginModel, QueryModel, UserModel } from '../login/login';
 import { apiUrl } from '../models/_config';
 import { catchError, throwError } from 'rxjs';
@@ -27,6 +27,17 @@ export class UserService {
   addUser(userModel : UserModel) : Observable <any>{
     return this.http.post<any>(this.addUserUrl, userModel)
 
+  }
+
+  getRefreshToken(){
+    const userDataStr = localStorage.getItem('userData') ;
+    if (userDataStr){
+      const userData : any = JSON.parse (userDataStr);
+      const token = userData['token'];
+      const url = `${apiUrl}/refreshToken`;
+      return this.http.post<any>(url, {});
+    }
+    return of(null);
   }
 
 
