@@ -11,6 +11,11 @@ export class UserModel {
         public roles? : string[],
     ){}
 }
+export class RoleModel{
+    constructor (
+        public role : string,
+    ){}
+}
 
 
 export class QueryModel {

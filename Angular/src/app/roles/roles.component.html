@@ -1,1 +1,58 @@
-<p>roles works!</p>
+<h3>User Roles</h3>
+
+<div class="alert "
+    [class.alert-success] = "errorMessage === 'success' "
+    [class.alert-danger] = " errorMessage === 'fail' "
+    *ngIf = "errorMessage === 'fail'  || errorMessage === 'success' ">
+    {{errorMessage}}
+</div>
+
+<div class="container p-0">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Role Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor = "let item of rolesData ">
+                <td scope="row">{{ item['ROLE'] }} </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container" *ngIf="currentUserRoles.includes('READ') && currentUserRoles.includes('UPDATE') ">
+    <form  #userForm = "ngForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="" >Role</label>
+                    <input
+                        type="text"
+                        name= "text"
+                        #role ="ngModel"
+                        class="form-control rounded-2"
+                        [class.is-invalid] = "( role.invalid && role.touched ) "
+                        [(ngModel)] = "roleModel.role" required
+                        (input)="roleModel.role = role.value.toUpperCase();"
+                    >
+                    <small class="text-danger" [class.d-none]="role?.value?.length >= 3 || (role.valid || role.untouched)">
+                        Role is required & must be 3 chars or longer
+                    </small>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <button class="btn btn-primary" type="button"
+                    [disabled]="userForm.form.invalid || ( roleModel?.role === undefined ) "
+                    (click) = "saveClicked($event)"
+                >
+                    Add User
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>

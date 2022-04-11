@@ -97,8 +97,8 @@ def insertRole(cursor, conn, json):
     (`ROLE`)
     values
     ('{new_role}')
-    """.format(new_role=json['role_name'].upper())
+    """.format(new_role=json['role'].upper())
     cursor.execute(queryString)
     #insertId = cursor.fetchone()[0]
     conn.commit()
-    return {'id':json['role_name'].upper(), 'message':'success'}
+    return {'id':json['role'].upper(), 'message':'success'}

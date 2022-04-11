@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.showUsers();
     this.userData = JSON.parse( localStorage.getItem('userData') || '' )
-    this.currentUserRoles = this.userData.roles;
+    this.currentUserRoles = this.userData?.roles || [];
   }
 
   showUsers() : void {
@@ -58,6 +58,7 @@ export class UsersComponent implements OnInit {
       (data : any) => {
         console.log(data);
         this.errorMessage = 'success';
+        this.showUsers();
       },
       (err : any ) => {
         console.log(err);
